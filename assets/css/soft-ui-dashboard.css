@@ -138,7 +138,7 @@ h5,
 h6,
 .h6 {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-weight: 400;
   line-height: 1.2;
   color: #344767;
@@ -24594,10 +24594,12 @@ html {
   margin: 0;
 }
 
-.table td,
-.table th {
-  white-space: nowrap;
+
+
+.table td p.details{
+  width: 200px;
 }
+
 
 .table.align-items-center td,
 .table.align-items-center th {
@@ -26693,6 +26695,30 @@ pre[class*="language-"] {
   .ps {
     overflow: auto !important;
   }
+}
+
+input[type="text"].insert {
+  border: none;
+  text-align:center;
+  font-size: 10px;
+  padding: 5px 0;
+}
+
+button.insert{
+  height: 25px;
+  font-size: 10px;
+  line-height: 0;
+  width: 80%;
+  padding: 0;
+  margin:0;
+  letter-spacing : 0.2px;
+}
+
+.tabel{
+  max-height : 500px;
+}
+table::-webkit-scrollbar {
+  left: 0;
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */

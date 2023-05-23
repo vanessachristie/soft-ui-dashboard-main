@@ -12,6 +12,10 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+
+<?php
+include 'connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Soft UI Dashboard by Creative Tim
+    Ever After Admin Website
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -300,201 +304,667 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
+      <!-- tabel produk -->
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Authors table</h6>
+              <h6>Products table</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CATEGORY ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STOCK</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRICE</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 100px;">DESCRIPTION</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">URL</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_PRODUCT</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                  <tr>
+                    <form action="">
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
+                          <!-- <div>
                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
-                          </div>
+                          </div> -->
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">John Michael</h6>
-                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                            <input type="text" placeholder="Insert here.." required class="insert">
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                        <input type="text" placeholder="Insert here.." required class="insert">
                       </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
                       </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
                       </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
+                      </td>
+                      <th class="text-secondary opacity-7"></th>
+
+                    </form>
                     </tr>
+                  
+              <?php 
+          $sql="SELECT * from product;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['PRODUCT_ID']= $row["PRODUCT_ID"];
+              $dt['CATEGORY_ID']= $row["CATEGORY_ID"];
+              $dt['PRODUCT_NAME']= $row["PRODUCT_NAME"];
+              $dt['PRODUCT_STOCK']= $row["PRODUCT_STOCK"];
+              $dt['PRODUCT_PRICE']= $row["PRODUCT_PRICE"];
+              $dt['PRODUCT_DETAIL']= $row["PRODUCT_DETAIL"];
+              $dt['DELETE_PRODUCT']= $row["DELETE_PRODUCT"];
+              $dt['PRODUCT_URL']= $row["PRODUCT_URL"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                
                     <tr>
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
-                          </div>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
+                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["PRODUCT_ID"]; ?></h6>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CATEGORY_ID"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["PRODUCT_NAME"]; ?></p>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["PRODUCT_STOCK"]; ?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["PRODUCT_PRICE"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="details text-xxs  mb-0"><?php echo $data[$i]["PRODUCT_DETAIL"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["PRODUCT_URL"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_PRODUCT"]; ?></span>
                       </td>
                       <td class="align-middle">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
+                        <span class="badge badge-sm bg-gradient-success">Edit</span>
                         </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-4.jpg" class="avatar avatar-sm me-3" alt="user3">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Laurent Perrier</h6>
-                            <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Executive</p>
-                        <p class="text-xs text-secondary mb-0">Projects</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
-                      </td>
-                      <td class="align-middle">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
+                        <span class="badge badge-sm bg-gradient-danger">Delete</span>
                         </a>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user4">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Michael Levi</h6>
-                            <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user5">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Richard Gran</h6>
-                            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Manager</p>
-                        <p class="text-xs text-secondary mb-0">Executive</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-4.jpg" class="avatar avatar-sm me-3" alt="user6">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Miriam Eric</h6>
-                            <p class="text-xs text-secondary mb-0">miriam@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programtor</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
                   </tbody>
                 </table>
               </div>
             </div>
+
+
           </div>
         </div>
       </div>
+
+      <!-- tabel shipment -->
       <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Shipment table</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">DELIVERY ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELIVERY NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WEIGHT</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">COST</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_DELIVERY</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <form action="">
+                      <td>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
+                          <div class="d-flex flex-column justify-content-center">
+                            <input type="text" placeholder="Insert here.." required class="insert">
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
+                      </td>
+                      <th class="text-secondary opacity-7"></th>
+
+                    </form>
+                    </tr>
+                  
+              <?php 
+          $sql="SELECT * FROM `delivery`;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['DELIVERY_ID']= $row['DELIVERY_ID'];
+              $dt['DELIVERY_NAME']= $row["DELIVERY_NAME"];
+              $dt['DELIVERY_WEIGHT']= $row["DELIVERY_WEIGHT"];
+              $dt['DELIVERY_COST']= $row["DELIVERY_COST"];
+              $dt['DELIVERY_STATUS']= $row["DELIVERY_STATUS"];
+              $dt['DELETE_DELIVERY']= $row["DELETE_DELIVERY"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                
+                    <tr>
+                      <td>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["DELIVERY_ID"]; ?></h6>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELIVERY_NAME"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELIVERY_WEIGHT"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELIVERY_COST"]; ?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELIVERY_STATUS"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_DELIVERY"]; ?></span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <span class="badge badge-sm bg-gradient-success">Edit</span>
+                        </a>
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <span class="badge badge-sm bg-gradient-danger">Delete</span>
+                        </a>
+                      </td>
+                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- tabel voucher -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Voucher table</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DISCOUNT</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_VOUCHER</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <form action="">
+                      <td>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
+                          <div class="d-flex flex-column justify-content-center">
+                            <input type="text" placeholder="Insert here.." required class="insert">
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <input type="text" placeholder="Insert here.." required class="insert">
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
+                      </td>
+                      <th class="text-secondary opacity-7"></th>
+
+                    </form>
+                    </tr>
+                  
+              <?php 
+          $sql="SELECT * from voucher;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['VOUCHER_ID']= $row["VOUCHER_ID"];
+              $dt['VOUCHER_NAME']= $row["VOUCHER_NAME"];
+              $dt['DISCOUNT']= $row["DISCOUNT"];
+              $dt['DELETE_VOUCHER']= $row["DELETE_VOUCHER"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                
+                    <tr>
+                      <td>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["VOUCHER_ID"]; ?></h6>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["VOUCHER_NAME"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DISCOUNT"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_VOUCHER"]; ?></span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <span class="badge badge-sm bg-gradient-success">Edit</span>
+                        </a>
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <span class="badge badge-sm bg-gradient-danger">Delete</span>
+                        </a>
+                      </td>
+                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- tabel penjualan per produk -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Product sale table</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CATEGORY</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTY</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+              <?php 
+          $sql="select p.product_id, p.product_name , c.category_name , sum(po.qty) as qty from product p, product_order po , category c where p.product_id = po.product_id and c.category_id = p.category_id group by 1 order by 2 desc;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['product_id']= $row["product_id"];
+              $dt['category_name']= $row["category_name"];
+              $dt['product_name']= $row["product_name"];
+              $dt['qty']= $row["qty"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                    <tr>
+                      <td>
+                          <!-- <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          </div> -->
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["product_id"]; ?></h6>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["category_name"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["product_name"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["qty"]; ?></p>
+                      </td>
+                      <td></td>
+                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- tabel penjualan -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Transaction table</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">ORDER ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ORDER DATE</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTY</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >PRICE</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">GRAND TOTAL</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POTONGAN</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PAJAK</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TOTAL BAYAR</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PAYMENT</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SHIPPING</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+              <?php 
+          $sql="select o.order_id, o.order_date, c.customer_name,  p.product_name, po.qty, format(p.product_price,0) as price, format(o.grand_total,0) as grand_total, format(o.total_potongan,0) as potongan , o.total_pajak as 'pajak(%)', format(convert(o.grand_total-o.total_potongan+(o.grand_total*(o.total_pajak/100)),int),0) as total_bayar ,v.voucher_name, pa.payment_method, d.delivery_name from `order` o, customer c, product p, product_order po, payment pa, delivery d,voucher v where o.ORDER_ID = po.ORDER_ID and po.PRODUCT_ID = p.PRODUCT_ID and o.CUSTOMER_ID = c.CUSTOMER_ID and o.PAYMENT_ID = pa.PAYMENT_ID and o.DELIVERY_ID = d.delivery_id and o.VOUCHER_ID = v.voucher_id order by 1 desc;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['order_id']= $row["order_id"];
+              $dt['order_date']= $row["order_date"];
+              $dt['customer_name']= $row["customer_name"];
+              $dt['product_name']= $row["product_name"];
+              $dt['qty']= $row["qty"];
+              $dt['price']= $row["price"];
+              $dt['grand_total']= $row["grand_total"];
+              $dt['potongan']= $row["potongan"];
+              $dt['pajak(%)']= $row["pajak(%)"];
+              $dt['total_bayar']= $row["total_bayar"];
+              $dt['voucher_name']= $row["voucher_name"];
+              $dt['payment_method']= $row["payment_method"];
+              $dt['delivery_name']= $row["delivery_name"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                
+                    <tr>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["order_id"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["order_date"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["customer_name"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["product_name"]; ?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["qty"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["price"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["grand_total"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["potongan"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["pajak(%)"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["total_bayar"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["voucher_name"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["payment_method"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["delivery_name"]; ?></p>
+                      </td>
+                      
+                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <!-- tabel customer -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Customer table</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0 tabel">
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER NAME</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">EMAIL</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PHONE</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ADDRESS</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >CITY</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">COUNTRY</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DEL_CUST</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DEL_ADDR</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+              <?php 
+          $sql="select c.CUSTOMER_ID ,c.CUSTOMER_NAME, c.CUSTOMER_EMAIL , if(a.PHONE is null, '-',a.PHONE) as PHONE, if(a.ADDRESS is null, '-',a.ADDRESS) AS ADDRESS, if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(a.ADDRESS, ',', 2), ',', -1),' ','')) AS CITY ,if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(a.ADDRESS, ',', -1),' ','')) AS COUNTRY ,c.DELETE_CUSTOMER, IF(a.DELETE_ADDRESS is null, '-', a.DELETE_ADDRESS) AS DELETE_ADDRESS from customer c left join address a on c.CUSTOMER_ID = a.CUSTOMER_ID;";
+          $result=$conn->query($sql);
+        
+          if($result->num_rows > 0){
+            $response=array();
+            while ($row=$result->fetch_assoc()){
+              $dt['CUSTOMER_ID']= $row["CUSTOMER_ID"];
+              $dt['CUSTOMER_NAME']= $row["CUSTOMER_NAME"];
+              $dt['CUSTOMER_EMAIL']= $row["CUSTOMER_EMAIL"];
+              $dt['PHONE']= $row["PHONE"];
+              $dt['ADDRESS']= $row["ADDRESS"];
+              $dt['CITY']= $row["CITY"];
+              $dt['COUNTRY']= $row["COUNTRY"];
+              $dt['DELETE_CUSTOMER']= $row["DELETE_CUSTOMER"];
+              $dt['DELETE_ADDRESS']= $row["DELETE_ADDRESS"];
+              array_push($response,$dt);
+            }
+            
+            $hasil_json=json_encode($response);
+            $data = json_decode($hasil_json,true);
+            for($i = 0; $i < count($data); $i++) { ?>
+                
+                    <tr>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CUSTOMER_ID"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CUSTOMER_NAME"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CUSTOMER_EMAIL"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["PHONE"]; ?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["ADDRESS"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CITY"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["COUNTRY"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELETE_CUSTOMER"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELETE_ADDRESS"]; ?></p>
+                      </td>
+                      
+                    </tr>
+                    
+                  
+            <?php } ?>
+          <?php } ?>
+        
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <?php $conn->close(); ?>
+      <!-- <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
@@ -717,7 +1187,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
