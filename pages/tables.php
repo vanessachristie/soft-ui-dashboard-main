@@ -419,10 +419,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <input type="text" placeholder="Insert here.." name="PRODUCT_NAME" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="PRODUCT_STOCK" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="PRODUCT_STOCK" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="PRODUCT_PRICE" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="PRODUCT_PRICE" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
                   <input type="text" placeholder="Insert here.." name="PRODUCT_DETAIL" required class="insert">
@@ -431,7 +431,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <input type="text" placeholder="Insert here.." name="PRODUCT_URL" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELETE_PRODUCT" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELETE_PRODUCT" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm d-flex justify-content-start">
                   <button type="submit" name="insertForm" class="btn bg-gradient-success insert">Insert</button>
@@ -559,16 +559,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <input type="text" placeholder="Insert here.." name="DELIVERY_NAME" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELIVERY_WEIGHT" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELIVERY_WEIGHT" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELIVERY_COST" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELIVERY_COST" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELIVERY_STATUS" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELIVERY_STATUS" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELETE_DELIVERY" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELETE_DELIVERY" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm d-flex justify-content-start">
                   <button type="submit" name="insertFormDeliv" class="btn bg-gradient-success insert">Insert</button>
@@ -682,10 +682,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <input type="text" placeholder="Insert here.." name="VOUCHER_NAME" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DISCOUNT" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DISCOUNT" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm">
-                  <input type="text" placeholder="Insert here.." name="DELETE_VOUCHER" required class="insert">
+                  <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Insert here.." name="DELETE_VOUCHER" required class="insert">
                 </td>
                 <td class="align-middle text-center text-sm d-flex justify-content-start">
                   <button type="submit" type="submit" name="insertFormVoucher" class="btn bg-gradient-success insert">Insert</button>
