@@ -15,6 +15,70 @@
 
 <?php
 include 'connection.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Ambil data dari form
+  if (isset($_POST['formPRODUCT_ID']) || isset($_POST['insertForm'])) {
+    $product_id = $_POST['PRODUCT_ID'];
+    $category_id = $_POST['CATEGORY_ID'];
+    $product_name = $_POST['PRODUCT_NAME'];
+    $product_stock = $_POST['PRODUCT_STOCK'];
+    $product_price = $_POST['PRODUCT_PRICE'];
+    $product_detail = $_POST['PRODUCT_DETAIL'];
+    $product_url = $_POST['PRODUCT_URL'];
+    $delete_product = $_POST['DELETE_PRODUCT'];
+  
+    // Lakukan operasi SQL INSERT INTO product
+    if (isset($_POST['formPRODUCT_ID'])) {
+      $sql = "UPDATE product SET CATEGORY_ID = '$category_id', PRODUCT_NAME = '$product_name', PRODUCT_STOCK = '$product_stock', PRODUCT_PRICE = '$product_price', PRODUCT_DETAIL = '$product_detail', PRODUCT_URL = '$product_url', DELETE_PRODUCT = '$delete_product' WHERE PRODUCT_ID = '$product_id'";
+      $conn->query($sql);
+    }
+    if (isset($_POST['insertForm'])) {
+      $sql = "INSERT INTO product VALUES ('" . strtoupper($product_id) . "', '" . strtoupper($category_id) . "', '" . strtoupper($product_name) . "', '" . strtoupper($product_stock) . "', '" . strtoupper($product_price) . "', '" . strtoupper($product_detail) . "', '" . strtoupper($product_url) . "', '" . strtoupper($delete_product) . "')";
+      $conn->query($sql);
+    }
+  }
+  if (isset($_POST['formDELIVERY_ID']) || isset($_POST['insertFormDeliv'])) {
+    $DELIVERY_ID = $_POST['DELIVERY_ID'];
+    $DELIVERY_NAME = $_POST['DELIVERY_NAME'];
+    $DELIVERY_WEIGHT = $_POST['DELIVERY_WEIGHT'];
+    $DELIVERY_COST = $_POST['DELIVERY_COST'];
+    $DELIVERY_STATUS = $_POST['DELIVERY_STATUS'];
+    $DELETE_DELIVERY = $_POST['DELETE_DELIVERY'];
+
+    if (isset($_POST['formDELIVERY_ID'])) {      
+      $sql = "UPDATE DELIVERY SET DELIVERY_NAME = '$DELIVERY_NAME', DELIVERY_WEIGHT = '$DELIVERY_WEIGHT', DELIVERY_COST = '$DELIVERY_COST', DELIVERY_STATUS = '$DELIVERY_STATUS', DELETE_DELIVERY = '$DELETE_DELIVERY' WHERE DELIVERY_ID = '$DELIVERY_ID'";
+      $conn->query($sql);
+    }
+    if (isset($_POST['insertFormDeliv'])) {
+      $sql = "INSERT INTO DELIVERY VALUES ('" . strtoupper($DELIVERY_ID) . "', '" . strtoupper($DELIVERY_NAME) . "', '" . strtoupper($DELIVERY_WEIGHT) . "', '" . strtoupper($DELIVERY_COST) . "', '" . strtoupper($DELIVERY_STATUS) . "', '" . strtoupper($DELETE_DELIVERY) . "')";
+      $conn->query($sql);
+    }
+  }
+  if (isset($_POST['formVOUCHER_ID']) || isset($_POST['insertFormVoucher'])) {
+    $VOUCHER_ID = $_POST['VOUCHER_ID'];
+    $VOUCHER_NAME = $_POST['VOUCHER_NAME'];
+    $DISCOUNT = $_POST['DISCOUNT'];
+    $DELETE_VOUCHER = $_POST['DELETE_VOUCHER'];
+    
+
+    if (isset($_POST['formVOUCHER_ID'])) {      
+      $sql = "UPDATE VOUCHER SET VOUCHER_ID = '$VOUCHER_ID', VOUCHER_NAME = '$VOUCHER_NAME', DISCOUNT = '$DISCOUNT', DELETE_VOUCHER = '$DELETE_VOUCHER' WHERE VOUCHER_ID = '$VOUCHER_ID'";
+      $conn->query($sql);
+    }
+    if (isset($_POST['insertFormVoucher'])) {
+      $sql = "INSERT INTO VOUCHER VALUES ('" . strtoupper($VOUCHER_ID) . "', '" . strtoupper($VOUCHER_NAME) . "', '" . strtoupper($DISCOUNT) . "', '" . strtoupper($DELETE_VOUCHER) . "')";    
+      $conn->query($sql);
+    }
+  }
+  if (isset($_POST['delForm'])) {
+    $id = reset($_POST);
+    $col_name = key($_POST);
+    $table_name = substr($col_name, 0, strpos($col_name, "_"));
+    $sql = "DELETE FROM $table_name WHERE $col_name = '$id'";
+    $conn->query($sql);
+  }
+  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +104,15 @@ include 'connection.php';
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jqc-1.12.4/moment-2.18.1/dt-1.13.4/b-2.3.6/date-1.4.1/sl-1.6.2/datatables.min.css">
+		<link rel="stylesheet" type="text/css" href="css/generator-base.css">
+		<link rel="stylesheet" type="text/css" href="css/editor.dataTables.min.css">
+
+		<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/v/dt/jqc-1.12.4/moment-2.18.1/dt-1.13.4/b-2.3.6/date-1.4.1/sl-1.6.2/datatables.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/dataTables.editor.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/table.cust.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -188,7 +261,7 @@ include 'connection.php';
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
-      <div class="container-fluid py-1 px-3">
+      <div class="container-fluid con-tables py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
@@ -303,72 +376,70 @@ include 'connection.php';
       </div>
     </nav>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
+    <div class="container-fluid con-tables py-4">
       <!-- tabel produk -->
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Products table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Products table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CATEGORY ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STOCK</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRICE</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 100px;">DESCRIPTION</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">URL</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_PRODUCT</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <form action="">
-                      <td>
-                          <!-- <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
-                          </div> -->
-                          <div class="d-flex flex-column justify-content-center">
-                            <input type="text" placeholder="Insert here.." required class="insert">
-                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
-                          </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
-                      </td>
-                      <th class="text-secondary opacity-7"></th>
+              <div class="table-responsive p-0 tabel" >
+          <table cellpadding="0" cellspacing="0" border="0" class="display" id="product" width="100%">
+            <thead>
+              <tr>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRODUCT ID</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CATEGORY ID</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRODUCT NAME</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">STOCK</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRICE</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DESCRIPTION</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">URL</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DELETE_PRODUCT</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <form method="POST" class="formInsert" action="tables.php"> 
+                <td>
+                    <!-- <div>
+                      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                    </div> -->
+                    <div class="d-flex flex-column justify-content-center">
+                      <input type="text" placeholder="Insert here.." name="PRODUCT_ID" required class="insert">
+                      <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                    </div>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="CATEGORY_ID" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="PRODUCT_NAME" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="PRODUCT_STOCK" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="PRODUCT_PRICE" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="PRODUCT_DETAIL" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="PRODUCT_URL" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELETE_PRODUCT" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm d-flex justify-content-start">
+                  <button type="submit" name="insertForm" class="btn bg-gradient-success insert">Insert</button>
+                </td>
 
-                    </form>
-                    </tr>
-                  
+              </form>
+            </tr>
+            
               <?php 
           $sql="SELECT * from product;";
           $result=$conn->query($sql);
@@ -391,13 +462,13 @@ include 'connection.php';
             $data = json_decode($hasil_json,true);
             for($i = 0; $i < count($data); $i++) { ?>
                 
-                    <tr>
+                    <tr class="trproduct">
                       <td>
                           <!-- <div>
                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                           </div> -->
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["PRODUCT_ID"]; ?></h6>
+                          <div class="d-flex flex-column justify-content-center ">
+                            <h6 class="mb-0 text-xs text-center product_id"><?php echo $data[$i]["PRODUCT_ID"]; ?></h6>
                             <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
                       </td>
@@ -423,10 +494,10 @@ include 'connection.php';
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_PRODUCT"]; ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs editProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-success">Edit</span>
                         </a>
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs delProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-danger">Delete</span>
                         </a>
                       </td>
@@ -435,73 +506,76 @@ include 'connection.php';
                   
             <?php } ?>
           <?php } ?>
-        
-                  </tbody>
+          </tbody>
                 </table>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                </div>
+                </div>
+                
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
 
+      
+
       <!-- tabel shipment -->
+
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Shipment table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Shipment table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">DELIVERY ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELIVERY NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">WEIGHT</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">COST</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">STATUS</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_DELIVERY</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <form action="">
-                      <td>
-                          <!-- <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
-                          </div> -->
-                          <div class="d-flex flex-column justify-content-center">
-                            <input type="text" placeholder="Insert here.." required class="insert">
-                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
-                          </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
-                      </td>
-                      <th class="text-secondary opacity-7"></th>
+          <table cellpadding="0" cellspacing="0" border="0" class="display" id="cust" width="100%">
+            <thead>
+              <tr>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DELIVERY ID</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DELIVERY NAME</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">WEIGHT</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">COST</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">STATUS</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DELETE DELIVERY</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <form method="POST" class="formInsert" action="tables.php"> 
+                <td>
+                    <!-- <div>
+                      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                    </div> -->
+                    <div class="d-flex flex-column justify-content-center">
+                      <input type="text" placeholder="Insert here.." name="DELIVERY_ID" required class="insert">
+                      <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                    </div>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELIVERY_NAME" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELIVERY_WEIGHT" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELIVERY_COST" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELIVERY_STATUS" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELETE_DELIVERY" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm d-flex justify-content-start">
+                  <button type="submit" name="insertFormDeliv" class="btn bg-gradient-success insert">Insert</button>
+                </td>
 
-                    </form>
-                    </tr>
+              </form>
+            </tr>
                   
               <?php 
           $sql="SELECT * FROM `delivery`;";
@@ -523,13 +597,13 @@ include 'connection.php';
             $data = json_decode($hasil_json,true);
             for($i = 0; $i < count($data); $i++) { ?>
                 
-                    <tr>
+                    <tr class="trdeliv">
                       <td>
                           <!-- <div>
                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                           </div> -->
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["DELIVERY_ID"]; ?></h6>
+                            <h6 class="mb-0 text-xs text-center delivery_id"><?php echo $data[$i]["DELIVERY_ID"]; ?></h6>
                             <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
                       </td>
@@ -549,10 +623,10 @@ include 'connection.php';
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_DELIVERY"]; ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs editProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-success">Edit</span>
                         </a>
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs delProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-danger">Delete</span>
                         </a>
                       </td>
@@ -561,66 +635,64 @@ include 'connection.php';
                   
             <?php } ?>
           <?php } ?>
-        
-                  </tbody>
+          </tbody>
                 </table>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
 
+
+
       <!-- tabel voucher -->
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Voucher table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Voucher table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DISCOUNT</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DELETE_VOUCHER</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACTION</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <form action="">
-                      <td>
-                          <!-- <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
-                          </div> -->
-                          <div class="d-flex flex-column justify-content-center">
-                            <input type="text" placeholder="Insert here.." required class="insert">
-                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
-                          </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <input type="text" placeholder="Insert here.." required class="insert">
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <button type="submit" class="btn bg-gradient-success insert">Insert</button>
-                      </td>
-                      <th class="text-secondary opacity-7"></th>
+          <table cellpadding="0" cellspacing="0" border="0" class="display" id="voucher" width="100%">
+            <thead>
+              <tr>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">VOUCHER ID</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">VOUCHER NAME</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DISCOUNT</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DELETE_VOUCHER</th>
+                <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <form method="POST" class="formInsert" action="tables.php">
+                <td>
+                    <!-- <div>
+                      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                    </div> -->
+                    <div class="d-flex flex-column justify-content-center">
+                      <input type="text" placeholder="Insert here.." name="VOUCHER_ID" required class="insert">
+                      <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                    </div>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="VOUCHER_NAME" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DISCOUNT" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <input type="text" placeholder="Insert here.." name="DELETE_VOUCHER" required class="insert">
+                </td>
+                <td class="align-middle text-center text-sm d-flex justify-content-start">
+                  <button type="submit" type="submit" name="insertFormVoucher" class="btn bg-gradient-success insert">Insert</button>
+                </td>
 
-                    </form>
-                    </tr>
-                  
+              </form>
+            </tr>
               <?php 
           $sql="SELECT * from voucher;";
           $result=$conn->query($sql);
@@ -639,13 +711,13 @@ include 'connection.php';
             $data = json_decode($hasil_json,true);
             for($i = 0; $i < count($data); $i++) { ?>
                 
-                    <tr>
+                    <tr class="trvoucher">
                       <td>
                           <!-- <div>
                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                           </div> -->
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs text-center"><?php echo $data[$i]["VOUCHER_ID"]; ?></h6>
+                            <h6 class="mb-0 text-xs text-center voucher_id"><?php echo $data[$i]["VOUCHER_ID"]; ?></h6>
                             <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
                       </td>
@@ -659,10 +731,10 @@ include 'connection.php';
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELETE_VOUCHER"]; ?></span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs editProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-success">Edit</span>
                         </a>
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs delProduct" data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="badge badge-sm bg-gradient-danger">Delete</span>
                         </a>
                       </td>
@@ -672,36 +744,34 @@ include 'connection.php';
             <?php } ?>
           <?php } ?>
         
-                  </tbody>
+          </tbody>
                 </table>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
 
+
       <!-- tabel penjualan per produk -->
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Product sale table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Product sale table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CATEGORY</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTY</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="sales" width="100%">
+                <thead>
+                  <tr>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRODUCT ID</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRODUCT NAME</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CATEGORY</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">QTY</th>
+                  </tr>
+                </thead>
+                <tbody>
                   
               <?php 
           $sql="select p.product_id, p.product_name , c.category_name , sum(po.qty) as qty from product p, product_order po , category c where p.product_id = po.product_id and c.category_id = p.category_id group by 1 order by 2 desc;";
@@ -739,7 +809,6 @@ include 'connection.php';
                       <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["qty"]; ?></p>
                       </td>
-                      <td></td>
                     </tr>
                     
                   
@@ -750,8 +819,6 @@ include 'connection.php';
                 </table>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
@@ -759,33 +826,31 @@ include 'connection.php';
       <!-- tabel penjualan -->
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Transaction table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Transaction table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">ORDER ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ORDER DATE</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRODUCT NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTY</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >PRICE</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">GRAND TOTAL</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">POTONGAN</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PAJAK</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">TOTAL BAYAR</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VOUCHER</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PAYMENT</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SHIPPING</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="transaction" width="100%">
+                <thead>
+                  <tr>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ORDER ID</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ORDER DATE</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CUSTOMER NAME</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PRODUCT NAME</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">QTY</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10" >PRICE</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">GRAND TOTAL</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">POTONGAN</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PAJAK</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">TOTAL BAYAR</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">VOUCHER</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PAYMENT</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">SHIPPING</th>
+                  </tr>
+                </thead>
+                <tbody>  
               <?php 
           $sql="select o.order_id, o.order_date, c.customer_name,  p.product_name, po.qty, format(p.product_price,0) as price, format(o.grand_total,0) as grand_total, format(o.total_potongan,0) as potongan , o.total_pajak as 'pajak(%)', format(convert(o.grand_total-o.total_potongan+(o.grand_total*(o.total_pajak/100)),int),0) as total_bayar ,v.voucher_name, pa.payment_method, d.delivery_name from `order` o, customer c, product p, product_order po, payment pa, delivery d,voucher v where o.ORDER_ID = po.ORDER_ID and po.PRODUCT_ID = p.PRODUCT_ID and o.CUSTOMER_ID = c.CUSTOMER_ID and o.PAYMENT_ID = pa.PAYMENT_ID and o.DELIVERY_ID = d.delivery_id and o.VOUCHER_ID = v.voucher_id order by 1 desc;";
           $result=$conn->query($sql);
@@ -818,13 +883,13 @@ include 'connection.php';
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["order_id"]; ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["order_date"]; ?></p>
+                        <p class="text-xs font-weight-bold mb-0" style="width:80px;"><?php echo $data[$i]["order_date"]; ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["customer_name"]; ?></p>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["product_name"]; ?></span>
+                      <p class="text-xs font-weight-bold mb-0" style="width:100px;"><?php echo $data[$i]["product_name"]; ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["qty"]; ?></p>
@@ -859,44 +924,42 @@ include 'connection.php';
                   
             <?php } ?>
           <?php } ?>
-        
                   </tbody>
                 </table>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
+
+
       <!-- tabel customer -->
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Customer table</h6>
+          <div class="card container-tables mb-4">
+            <div class="card-header px-1 py-2">
+              <h5>Customer table</h5>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0 tabel">
-              <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CUSTOMER NAME</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">EMAIL</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PHONE</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ADDRESS</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" >CITY</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">COUNTRY</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DEL_CUST</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DEL_ADDR</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="customer" width="100%">
+                <thead>
+                  <tr>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CUSTOMER ID</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CUSTOMER NAME</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">EMAIL</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PHONE</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ADDRESS</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10" >CITY</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">COUNTRY</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">POSTAL CODE</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DEL_CUST</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DEL_ADDR</th>
+                  </tr>
+                </thead>
+                <tbody>
               <?php 
-          $sql="select c.CUSTOMER_ID ,c.CUSTOMER_NAME, c.CUSTOMER_EMAIL , if(a.PHONE is null, '-',a.PHONE) as PHONE, if(a.ADDRESS is null, '-',a.ADDRESS) AS ADDRESS, if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(a.ADDRESS, ',', 2), ',', -1),' ','')) AS CITY ,if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(a.ADDRESS, ',', -1),' ','')) AS COUNTRY ,c.DELETE_CUSTOMER, IF(a.DELETE_ADDRESS is null, '-', a.DELETE_ADDRESS) AS DELETE_ADDRESS from customer c left join address a on c.CUSTOMER_ID = a.CUSTOMER_ID;";
+          $sql="select c.CUSTOMER_ID ,c.CUSTOMER_NAME, c.CUSTOMER_EMAIL , if(a.PHONE is null, '-',a.PHONE) as PHONE, if(a.ADDRESS is null, '-',a.ADDRESS) AS ADDRESS, if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(a.ADDRESS, ',', 2), ',', -1),' ','')) AS CITY ,if(a.ADDRESS is null,'-',REPLACE(SUBSTRING_INDEX(a.ADDRESS, ',', -1),' ','')) AS COUNTRY, REPLACE(SUBSTRING_INDEX(SUBSTRING_INDEX(a.ADDRESS, ',', -2), ',', 1),' ','') as POSTAL_CODE ,c.DELETE_CUSTOMER, IF(a.DELETE_ADDRESS is null, '-', a.DELETE_ADDRESS) AS DELETE_ADDRESS from customer c left join address a on c.CUSTOMER_ID = a.CUSTOMER_ID;";
           $result=$conn->query($sql);
         
           if($result->num_rows > 0){
@@ -909,6 +972,7 @@ include 'connection.php';
               $dt['ADDRESS']= $row["ADDRESS"];
               $dt['CITY']= $row["CITY"];
               $dt['COUNTRY']= $row["COUNTRY"];
+              $dt['POSTAL_CODE']= $row["POSTAL_CODE"];
               $dt['DELETE_CUSTOMER']= $row["DELETE_CUSTOMER"];
               $dt['DELETE_ADDRESS']= $row["DELETE_ADDRESS"];
               array_push($response,$dt);
@@ -941,6 +1005,9 @@ include 'connection.php';
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["COUNTRY"]; ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["POSTAL_CODE"]; ?></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["DELETE_CUSTOMER"]; ?></p>
                       </td>
                       <td class="align-middle text-center text-sm">
@@ -952,244 +1019,18 @@ include 'connection.php';
                   
             <?php } ?>
           <?php } ?>
-        
                   </tbody>
                 </table>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
 
       <?php $conn->close(); ?>
-      <!-- <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Projects table</h6>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center justify-content-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Budget</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Spotify</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">working</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">60%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-invision.svg" class="avatar avatar-sm rounded-circle me-2" alt="invision">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Invision</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$5,000</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">done</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">100%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm rounded-circle me-2" alt="jira">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Jira</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$3,400</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">canceled</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">30%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="30" style="width: 30%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-slack.svg" class="avatar avatar-sm rounded-circle me-2" alt="slack">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Slack</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$1,000</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">canceled</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">0%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-webdev.svg" class="avatar avatar-sm rounded-circle me-2" alt="webdev">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Webdev</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$14,000</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">working</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">80%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="80" style="width: 80%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm rounded-circle me-2" alt="xd">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Adobe XD</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm font-weight-bold mb-0">$2,300</p>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">done</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">100%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      
       <footer class="footer pt-3  ">
-        <div class="container-fluid">
+        <div class="container-fluid con-tables">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
               <div class="copyright text-center text-sm text-muted text-lg-start">
@@ -1294,6 +1135,77 @@ include 'connection.php';
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script>
+    $(document).ready(function() {
+      $('#cust').DataTable();
+      $('#product').DataTable();
+      $('#voucher').DataTable();
+      $('#sales').DataTable();
+      $('#transaction').DataTable();
+      $('#customer').DataTable();
+            
+    });
+
+    $('.editProduct').click(function() {
+      $('.g-sidenav-show ').css('overflow', 'hidden');
+      let product_id;
+      if ($(this).closest('tr').hasClass('trproduct')) {
+        namatabel = "PRODUCT";
+        product_id = $(this).closest('tr').find('.product_id').text();
+      } else if ($(this).closest('tr').hasClass('trdeliv')) {
+        namatabel = "DELIVERY";
+        product_id = $(this).closest('tr').find('.delivery_id').text();
+      }else if ($(this).closest('tr').hasClass('trvoucher')) {
+        namatabel = "VOUCHER";
+        product_id = $(this).closest('tr').find('.voucher_id').text();
+      };
+      $.ajax({
+        type: "POST",
+        url: "modal.php",
+        data: {
+          productid: product_id,
+          tablename: namatabel
+        },
+        success: function(response) {
+          $(".modal-dialog").html(response).show();
+          $('.formDel').css('display', 'none');
+        }
+      });
+    });
+    
+    $('.delProduct').click(function() {
+      // Mengambil isi dari elemen span yang merupakan sibling dari elemen .img-cap yang sama
+      let namatabel;
+      let product_id;
+      if ($(this).closest('tr').hasClass('trproduct')) {
+        namatabel = "PRODUCT";
+        product_id = $(this).closest('tr').find('.product_id').text();
+      } else if ($(this).closest('tr').hasClass('trdeliv')) {
+        namatabel = "DELIVERY";
+        product_id = $(this).closest('tr').find('.delivery_id').text();
+        console.log(product_id);
+      }else if ($(this).closest('tr').hasClass('trvoucher')) {
+        namatabel = "VOUCHER";
+        product_id = $(this).closest('tr').find('.voucher_id').text();
+      };
+      $.ajax({
+        type: "POST",
+        url: "modal.php",
+        data: {
+          productid: product_id,
+          tablename: namatabel
+        },
+        success: function(response) {
+          // Menampilkan div dengan hasil respons di dalamnya
+          console.log(response);
+          $(".modal-dialog").html(response).show();
+          $('.formDel').css('display', 'block');
+          $('.formEdit').css('display', 'none');
+
+        }
+      });
+    });
+
+
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {

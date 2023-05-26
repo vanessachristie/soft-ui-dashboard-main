@@ -24594,12 +24594,28 @@ html {
   margin: 0;
 }
 
-
-
-.table td p.details{
-  width: 200px;
+input.insert{
+  background : none;
 }
 
+.card.container-tables{
+  padding:20px;
+}
+
+p.details{
+  width: 400px;
+}
+.dataTables_info , .dataTables_paginate{
+  font-size : 14px;
+  padding-bottom :10px;
+}
+/* .container-tables{
+  overflow : auto;
+} */
+
+.con-tables{
+  padding-right:40px;
+}
 
 .table.align-items-center td,
 .table.align-items-center th {
@@ -26712,13 +26728,6 @@ button.insert{
   padding: 0;
   margin:0;
   letter-spacing : 0.2px;
-}
-
-.tabel{
-  max-height : 500px;
-}
-table::-webkit-scrollbar {
-  left: 0;
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
