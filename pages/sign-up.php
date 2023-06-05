@@ -12,6 +12,39 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+<?php
+require 'connection.php';
+
+// if(!empty($_SESSION["id"])){
+//   header("Location: index.php");
+// }
+if (isset($_POST["submit"])) {
+  $name = $_POST["name"];
+  $email = $_POST["email"];
+  $password = $_POST["password"];
+  $confirmpassword = $_POST["confirmpassword"];
+  $duplicate = mysqli_query($conn, "SELECT * FROM `admin` WHERE admin_email = '$email'");
+  if (mysqli_num_rows($duplicate) > 0) {
+    echo
+    "<script> alert('Email Has Already Registered'); </script>";
+  } else {
+    if ($password == $confirmpassword) {
+      // $number = mysqli_query($conn, "SELECT COUNT(admin_id) FROM ADMIN") + 1;
+      // $id = 'ADM0' + $number;
+
+      $query = "INSERT INTO `admin` VALUES('ADM017', '$email', '$password', '$name','0')";
+      mysqli_query($conn, $query);
+      echo
+      "<script> alert('Registration Successful'); </script>";
+    } else {
+      echo ('halo');
+      echo
+      "<script> alert('Password Does Not Match'); </script>";
+    }
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,9 +75,6 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
     <div class="container">
-      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="../pages/dashboard.html">
-        Soft UI Dashboard
-      </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
@@ -79,14 +109,6 @@
             </a>
           </li>
         </ul>
-        <li class="nav-item d-flex align-items-center">
-          <a class="btn btn-round btn-sm mb-0 btn-outline-white me-2" target="_blank" href="https://www.creative-tim.com/builder?ref=navbar-soft-ui-dashboard">Online Builder</a>
-        </li>
-        <ul class="navbar-nav d-lg-block d-none">
-          <li class="nav-item">
-            <a href="https://www.creative-tim.com/product/soft-ui-dashboard" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-light">Free download</a>
-          </li>
-        </ul>
       </div>
     </div>
   </nav>
@@ -99,7 +121,7 @@
           <div class="row justify-content-center">
             <div class="col-lg-5 text-center mx-auto">
               <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-              <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+              <p class="text-lead text-white">Create new account</p>
             </div>
           </div>
         </div>
@@ -156,15 +178,18 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form text-left">
+                <form role="form text-left" method="post">
                   <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon">
+                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="name-addon" name="name">
                   </div>
                   <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                    <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email">
                   </div>
                   <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                    <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password">
+                  </div>
+                  <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Confirm Password" aria-label="Password" aria-describedby="password-addon" name="confirmpassword">
                   </div>
                   <div class="form-check form-check-info text-left">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
@@ -173,7 +198,7 @@
                     </label>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                    <button type="submit" name="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
                   </div>
                   <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
                 </form>

@@ -12,6 +12,32 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+<?php
+require 'connection.php';
+if(isset($_POST["submit"])){
+  $email = $_POST["email"];
+  $password = $_POST["password"];
+  $result = mysqli_query($conn, "SELECT * FROM `admin` WHERE admin_email = '$email' OR admin_password = '$password'");
+  $row = mysqli_fetch_assoc($result);
+  if(mysqli_num_rows($result) > 0){
+    if($password == $row['password']){
+    //   $_SESSION["login"] = true;
+    //   $_SESSION["id"] = $row["id"];
+    //   header("Location: index.php");
+    echo "Email: " . $email . "<br>";
+    echo "Password: " . $password . "<br>";
+    } 
+    else{
+      echo
+      "<script> alert('Wrong Password'); </script>";
+    }
+  }
+  else{
+    echo
+    "<script> alert('User Not Registered'); </script>";
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,14 +108,6 @@
                   </a>
                 </li>
               </ul>
-              <li class="nav-item d-flex align-items-center">
-                <a class="btn btn-round btn-sm mb-0 btn-outline-primary me-2" target="_blank" href="https://www.creative-tim.com/builder?ref=navbar-soft-ui-dashboard">Online Builder</a>
-              </li>
-              <ul class="navbar-nav d-lg-block d-none">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/product/soft-ui-dashboard" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Free download</a>
-                </li>
-              </ul>
             </div>
           </div>
         </nav>
@@ -112,18 +130,18 @@
                   <form role="form">
                     <label>Email</label>
                     <div class="mb-3">
-                      <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                      <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="usernameemail">
                     </div>
                     <label>Password</label>
                     <div class="mb-3">
-                      <input type="email" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                      <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password">
                     </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
                       <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+                      <button type="submit" name="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
                     </div>
                   </form>
                 </div>
