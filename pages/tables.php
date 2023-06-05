@@ -1135,8 +1135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script>
-    console.log("halooo");
-
     $(document).ready(function() {
       $('#cust').DataTable();
       $('#product').DataTable();
