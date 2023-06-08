@@ -14,30 +14,55 @@
 -->
 <?php
 require 'connection.php';
-if(isset($_POST["submit"])){
+
+// Mengatur waktu sesi menjadi 5 jam
+$expiryTime = 5 * 60 * 60; // 5 jam dalam detik
+session_set_cookie_params($expiryTime);
+session_start();
+
+if (!empty($_SESSION["id"])) {
+  header("Location: sign-in.php");
+}
+
+if (isset($_POST["submit"])) {
   $email = $_POST["email"];
   $password = $_POST["password"];
-  $result = mysqli_query($conn, "SELECT * FROM `admin` WHERE admin_email = '$email' OR admin_password = '$password'");
+  $result = mysqli_query($conn, "select * from `admin` where admin_password ='$password' and admin_email = '$email';");
   $row = mysqli_fetch_assoc($result);
-  if(mysqli_num_rows($result) > 0){
-    if($password == $row['password']){
-    //   $_SESSION["login"] = true;
-    //   $_SESSION["id"] = $row["id"];
-    //   header("Location: index.php");
-    echo "Email: " . $email . "<br>";
-    echo "Password: " . $password . "<br>";
-    } 
-    else{
-      echo
-      "<script> alert('Wrong Password'); </script>";
+
+  if (mysqli_num_rows($result) > 0) {
+    if ($password == $row['ADMIN_PASSWORD'] and $email == $row['ADMIN_EMAIL']) {
+      $_SESSION["login"] = true;
+      $_SESSION["ADMIN_ID"] = $row["ADMIN_ID"];
+      echo $_SESSION["id"];
+      echo "<script> alert('Sign In Sucess'); </script>";
+      header("Location: dashboard.php");
+    } else {
+      echo "<script> alert('Wrong Password'); </script>";
     }
-  }
-  else{
-    echo
-    "<script> alert('User Not Registered'); </script>";
+  } else {
+    echo "<script> alert('User Not Registered'); </script>";
   }
 }
+
+
+// if (count($result) > 0) {
+//   $response = [];
+//   foreach ($result as $row) {
+//       $dt = new stdClass();
+//       $dt->PRODUCT_NAME = $row->PRODUCT_NAME;
+//       $dt->size = $row->size;
+//       $dt->PRODUCT_PRICE = $row->PRODUCT_PRICE;
+//       $dt->PRODUCT_URL = $row->PRODUCT_URL;
+
+//       $response[] = $dt;
+//   }
+
+//   $hasil_json=json_encode($response);
+//   $data = json_decode($hasil_json,true);
+// }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,48 +94,6 @@ if(isset($_POST["submit"])){
     <div class="row">
       <div class="col-12">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
-          <div class="container-fluid pe-0">
-            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.php">
-              Soft UI Dashboard
-            </a>
-            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon mt-2">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navigation">
-              <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="../pages/dashboard.php">
-                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                    Dashboard
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/profile.php">
-                    <i class="fa fa-user opacity-6 text-dark me-1"></i>
-                    Profile
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-up.php">
-                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                    Sign Up
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-in.php">
-                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                    Sign In
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
         <!-- End Navbar -->
       </div>
     </div>
@@ -123,14 +106,14 @@ if(isset($_POST["submit"])){
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">
                 <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <h3 class="font-weight-bolder text-info text-gradient">Welcome back!</h3>
+                  <p class="mb-0">Enter email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" method="POST" action="profile.php">
                     <label>Email</label>
                     <div class="mb-3">
-                      <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="usernameemail">
+                      <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="emailuser" >
                     </div>
                     <label>Password</label>
                     <div class="mb-3">
@@ -148,7 +131,7 @@ if(isset($_POST["submit"])){
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
                     Don't have an account?
-                    <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign up</a>
+                    <a href="../pages/sign-up.php" class="text-info text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </div>
               </div>
@@ -166,45 +149,6 @@ if(isset($_POST["submit"])){
   <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
   <footer class="footer py-5">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mb-4 mx-auto text-center">
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            Company
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            About Us
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            Team
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            Products
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            Blog
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-            Pricing
-          </a>
-        </div>
-        <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-            <span class="text-lg fab fa-dribbble"></span>
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-            <span class="text-lg fab fa-twitter"></span>
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-            <span class="text-lg fab fa-instagram"></span>
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-            <span class="text-lg fab fa-pinterest"></span>
-          </a>
-          <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-            <span class="text-lg fab fa-github"></span>
-          </a>
-        </div>
-      </div>
       <div class="row">
         <div class="col-8 mx-auto text-center mt-1">
           <p class="mb-0 text-secondary">
@@ -235,6 +179,28 @@ if(isset($_POST["submit"])){
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+
+  <script>
+  // $(document).ready(function() {
+  //   $('.tombol').click(function(e) {
+  //     e.preventDefault(); // Mencegah form submit secara default 
+  //     // Mengirim permintaan AJAX menggunakan jQuery
+  //     $.ajax({
+  //       url: 'profile.php',
+  //       type: 'POST',
+  //       data: {
+  //         admin_id: <?php echo $row["ADMIN_ID"]; ?>
+  //       },
+  //       success: function(response) {
+  //         console.log('Data berhasil dikirim');
+  //       },
+  //       error: function(xhr, status, error) {
+  //         console.log('Terjadi kesalahan: ' + error);
+  //       }
+  //     });
+  //   });
+  // });
+</script>
 </body>
 
 </html>
