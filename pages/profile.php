@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <?php
-include 'connection.php';
+    require 'connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -207,9 +207,9 @@ include 'connection.php';
           </div>
           <ul class="navbar-nav justify-content-end">
             <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+              <a href="../pages/logout.php" class="nav-link text-white font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <span class="d-sm-inline d-none">Log out</span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 pe-0 d-flex align-items-center">
@@ -228,79 +228,6 @@ include 'connection.php';
                 <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
               </a>
             </li>
-            <li class="nav-item dropdown pe-2 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-bell cursor-pointer"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 ms-n4" aria-labelledby="dropdownMenuButton">
-                <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New message</span> from Laur
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          13 minutes ago
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark me-3">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New album</span> by Travis Scott
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          1 day
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>credit-card</title>
-                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g transform="translate(1716.000000, 291.000000)">
-                                <g transform="translate(453.000000, 454.000000)">
-                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          Payment successfully completed
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          2 days
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </div>
       </div>
@@ -312,7 +239,67 @@ include 'connection.php';
         font-size: 4rem;
       }
     </style>
+   <?php
 
+   if (isset($_POST["submit"])) {
+     $email = $_POST["emailuser"];
+     // Gunakan nilai $email sesuai kebutuhan di halaman profile.php
+     $result = mysqli_query($conn, "SELECT * FROM admin WHERE ADMIN_EMAIL = '$email'");
+    if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    // Mengakses nilai dari $row
+    $adminName = $row['ADMIN_NAME'];
+    $adminEmail = $row['ADMIN_EMAIL'];}
+   }
+
+// require 'connection.php';
+
+// if (!empty($_SESSION["ADMIN_ID"])) {
+//   $id = $_SESSION["ADMIN_ID"];
+//   $result = mysqli_query($conn, "SELECT * FROM admin WHERE admin_id = '$id'");
+  
+//   if (mysqli_num_rows($result) > 0) {
+//     $row = mysqli_fetch_assoc($result);
+//     // Mengakses nilai dari $row
+//     $adminName = $row['ADMIN_NAME'];
+//     $adminEmail = $row['ADMIN_EMAIL'];
+    
+//     // Cetak nilai
+//     echo $adminName;
+//   } else {
+//     echo "User Not Found";
+//   }
+// } else {
+
+// }
+
+
+    
+    // require 'connection.php';
+    // $adminId = $_POST['admin_id'];
+    // // Lakukan operasi lain yang Anda perlukan dengan nilai admin_id
+    
+    // // Mengambil admin ID dari sesi
+    // // $adminId = $_SESSION['ADMIN_ID'];
+    //   echo ($adminId);
+    // // Melakukan query untuk mengambil data admin
+    // $query = "SELECT * FROM admin WHERE admin_id = '$adminId'";
+    // $result = $conn->query($query);
+
+    // // Memeriksa hasil query
+    // if ($result->num_rows > 0) {
+    //   // Mengambil baris pertama hasil query
+    //   $row = $result->fetch_assoc();
+    //   $adminName = $row['ADMIN_NAME'];
+    //   $adminEmail = $row['ADMIN_EMAIL'];
+
+
+    //   // Cetak nama admin
+    //   echo $adminName;
+    // }
+
+    ?>
+    
     <div class="container-fluid">
       <div class="page-header min-height-300 border-radius-xl mt-1" style="background-image: url('../assets/img/curved-images/curved0.jpg'); background-position-y: 60%;">
         <span class="mask bg-gradient-primary opacity-6"></span>
@@ -328,7 +315,7 @@ include 'connection.php';
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-                Alec Thompson
+              <?php echo $adminName; ?>
               </h5>
               <p class="mb-0 font-weight-bold text-sm">
                 Admin
@@ -342,6 +329,24 @@ include 'connection.php';
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12 mt-4">
+          <script>
+            function toggleEditProfile() {
+              // Menampilkan form dan menyembunyikan informasi profil
+              document.getElementById("profileInfo").style.display = "none";
+              document.getElementById("profileEmail").style.display = "none";
+              document.getElementById("editpicture").style.display = "none";
+              document.getElementById("editProfileForm").style.display = "block";
+            }
+
+            function cancelEditProfile() {
+              // Menampilkan informasi profil dan menyembunyikan form
+              document.getElementById("profileInfo").style.display = "block";
+              document.getElementById("profileEmail").style.display = "block";
+              document.getElementById("editpicture").style.display = "block";
+              document.getElementById("editProfileForm").style.display = "none";
+            }
+          </script>
+
           <div class="card h-100">
             <div class="card-header pb-0 p-3">
               <div class="row">
@@ -349,7 +354,7 @@ include 'connection.php';
                   <h6 class="mb-0">Profile Information</h6>
                 </div>
                 <div class="col-md-4 text-end">
-                  <a href="javascript:;">
+                  <a href="javascript:;" onclick="toggleEditProfile()" id="editpicture">
                     <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
                   </a>
                 </div>
@@ -357,32 +362,97 @@ include 'connection.php';
             </div>
             <div class="card-body p-3">
               <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; Alec M. Thompson</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; alecthompson@mail.com</li>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm" id="profileInfo">
+                  <strong class="text-dark">Name:</strong> &nbsp; <?php echo $row["ADMIN_NAME"]; ?>
+                </li>
+                <li class="list-group-item border-0 ps-0 text-sm" id="profileEmail">
+                  <strong class="text-dark">Email:</strong> &nbsp; <?php echo $row["ADMIN_EMAIL"]; ?>
+                </li>
 
-                <form action="">
+                <form id="editProfileForm" style="display: none;" method="post">
                   <label class="editprofile">EDIT PROFILE</label>
                   <div class="form-row">
                     <div class="col">
-                      <input type="text" class="form-control" style="margin-bottom:10px" required placeholder="Name *" id="name">
+                      <input type="text" class="form-control" style="margin-bottom:10px" required placeholder="Name *" name="name" id="name">
                     </div>
                   </div>
                   <div class="form-group mt-20">
-                    <input type="email" class="form-control" id="exampleInputEmail1" required placeholder="Email address *" aria-describedby="emailHelp" id="email">
+                    <input type="email" class="form-control" id="exampleInputEmail1" required placeholder="Email address *" aria-describedby="emailHelp" id="email" name="email">
                   </div>
                   <div class="form-group mt-20">
                     <label class="editprofile">CHANGE PASSWORD</label>
-                    <input type="password" class="form-control" style="margin-bottom:10px" required placeholder="Current password" id="currpass">
-                    <input type="password" class="form-control" style="margin-bottom:10px" required placeholder="New password" id="newpass">
-                    <input type="password" class="form-control" required placeholder="Confirm new password" id="confirmpass">
+                    <input type="password" class="form-control" style="margin-bottom:10px" required placeholder="Current password" id="currpass" name="currpass">
+                    <input type="password" class="form-control" style="margin-bottom:10px" required placeholder="New password" id="newpass" name="newpass">
                   </div>
-                  <button type="submit" class="btn btn-primary pb-20 login" onclick="updateProfile()">Save Changes</button>
+                  <button type="submit" class="btn btn-primary pb-20 login">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" onclick="cancelEditProfile()">Cancel</button>
                 </form>
+
+                <?php
+                require 'connection.php';
+                // Verifikasi apakah request adalah POST
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                  // Mendapatkan nilai input dari form
+                  $name = $_POST['name'];
+                  $email = $_POST['email'];
+                  $newpass = $_POST['newpass'];
+                  $currpass = $_POST['currpass'];
+
+
+                  // Jalankan query select untuk mengambil password saat ini
+                  $query = "SELECT admin_password FROM admin WHERE admin_id = 'ADM016'";
+                  $result = $conn->query($query);
+
+                  // Periksa hasil query
+                  if ($result && $result->num_rows > 0) {
+                    // Ambil baris pertama dari hasil query
+                    $row = $result->fetch_assoc();
+                    $currentPassword = $row['admin_password'];
+
+                    // Verifikasi password
+                    if ($currpass !== $currentPassword) {
+                      echo "<script> alert('Current Password is Incorect'); </script>";
+
+                      $conn->close();
+                      exit; // Menghentikan proses update jika password salah
+                    }
+                  } else {
+                    echo "<script> alert('Failed to retrieve current password'); </script>";
+                    $conn->close();
+                    exit;
+                  }
+
+                  // Escape nilai input untuk mencegah serangan SQL injection
+                  $name = $conn->real_escape_string($name);
+                  $email = $conn->real_escape_string($email);
+                  $newpass = $conn->real_escape_string($newpass);
+
+                  // Jalankan query update
+                  $query = "UPDATE admin SET admin_email = '$email', admin_password = '$newpass', admin_name = '$name' WHERE admin_id = 'ADM016'";
+                  $result = $conn->query($query);
+
+                  // Periksa hasil query
+                  if ($result === true) {
+                    echo "<script> alert('Profile Updated Successfully'); </script>";
+                  } else {
+                    echo "<script> alert('Failed To Update Profile'); </script>";
+                  }
+
+                  // Tutup koneksi
+                  $conn->close();
+
+                  exit;
+                }
+                ?>
+
+
               </ul>
             </div>
           </div>
+
+
         </div>
-        
+
 
         <div class="col-12 mt-4">
           <div class="card mb-4">
@@ -435,7 +505,13 @@ include 'connection.php';
                                   <p class='text-xs font-weight-bold mb-0'><?php echo $data[$i]["ADMINEMAIL"]; ?></p>
                                 </td>
                                 <td class='align-middle text-center text-sm'>
-                                  <p class='text-xs font-weight-bold mb-0'><?php if($data[$i]["DELETEADMIN"] == 0){$data[$i]["DELETEADMIN"] = 'active'; echo $data[$i]["DELETEADMIN"];}else{$data[$i]["DELETEADMIN"] = 'non-active'; echo $data[$i]["DELETEADMIN"];} ?></p>
+                                  <p class='text-xs font-weight-bold mb-0'><?php if ($data[$i]["DELETEADMIN"] == 0) {
+                                                                              $data[$i]["DELETEADMIN"] = 'active';
+                                                                              echo $data[$i]["DELETEADMIN"];
+                                                                            } else {
+                                                                              $data[$i]["DELETEADMIN"] = 'non-active';
+                                                                              echo $data[$i]["DELETEADMIN"];
+                                                                            } ?></p>
                                 </td>
                               </tr>
                             <?php } ?>
@@ -452,7 +528,7 @@ include 'connection.php';
                 </div>
               </div>
             </div>
-            
+
           </div>
         </div>
 
@@ -589,28 +665,28 @@ include 'connection.php';
     Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
   }
 
-    function updateProfile() {
-        // Mendapatkan nilai input dari form
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var currentPassword = document.getElementById('currentPassword').value;
-        var newPassword = document.getElementById('newPassword').value;
-        var confirmPassword = document.getElementById('confirmPassword').value;
+  function updateProfile() {
+    // Mendapatkan nilai input dari form
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var currentPassword = document.getElementById('currentPassword').value;
+    var newPassword = document.getElementById('newPassword').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
 
-        alert(name,email,currentPassword,newPassword,confirmPassword)
+    alert(name, email, currentPassword, newPassword, confirmPassword)
 
-        // // Mengirim permintaan AJAX ke server
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('POST', 'update-profile.php', true);
-        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        // xhr.onreadystatechange = function() {
-        //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        //         // Handle response from server
-        //         alert(xhr.responseText);
-        //     }
-        // };
-        // xhr.send('name=' + name + '&email=' + email + '&current_password=' + currentPassword + '&new_password=' + newPassword + '&confirm_password=' + confirmPassword);
-    }
+    // // Mengirim permintaan AJAX ke server
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('POST', 'update-profile.php', true);
+    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    // xhr.onreadystatechange = function() {
+    //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    //         // Handle response from server
+    //         alert(xhr.responseText);
+    //     }
+    // };
+    // xhr.send('name=' + name + '&email=' + email + '&current_password=' + currentPassword + '&new_password=' + newPassword + '&confirm_password=' + confirmPassword);
+  }
 </script>
 
 </html>
