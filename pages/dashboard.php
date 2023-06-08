@@ -1,4 +1,3 @@
-
 <!--
 =========================================================
 * Soft UI Dashboard - v1.0.7
@@ -14,9 +13,61 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <?php
+        include 'connection.php';
 
-include 'connection.php';
-?>
+        $response = array();
+       
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          $orderId = $_POST['orderId'];
+          echo $orderId;
+          // Perform the update query
+          $orderId = strval($orderId);
+          $updateQuery = "UPDATE `ORDER` SET `STATUS` = 1 WHERE ORDER_ID = '".$orderId."'";
+          echo $updateQuery;
+          if (mysqli_query($conn, $updateQuery)) {
+            $response['success'] = true;
+            $response['message'] = 'Order status updated successfully! lalala';
+          } else {
+            $response['success'] = false;
+            $response['message'] = 'Error updating order status: ' . mysqli_error($conn);
+          }
+        
+          // Close the database connection
+          mysqli_close($conn);
+        }
+        
+        // Return the response as JSON
+        // echo json_encode($response);
+        
+        ?>
+        <?php
+        include 'connection.php';
+
+        $response = array();
+       
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          $orderId = $_POST['orderId'];
+          echo $orderId;
+          // Perform the update query
+          $orderId = strval($orderId);
+          $updateQuery = "DELETE FROM `ORDER` WHERE ORDER_ID = '".$orderId."'";
+          echo $updateQuery;
+          if (mysqli_query($conn, $updateQuery)) {
+            $response['success'] = true;
+            $response['message'] = 'Order deleted successfully! lalala';
+          } else {
+            $response['success'] = false;
+            $response['message'] = 'Error updating order status: ' . mysqli_error($conn);
+          }
+        
+          // Close the database connection
+          mysqli_close($conn);
+        }
+        
+        // Return the response as JSON
+        // echo json_encode($response);
+        
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +107,7 @@ include 'connection.php';
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link  active" href="../pages/dashboard.html">
+          <a class="nav-link  active" href="../pages/dashboard.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>shop </title>
@@ -76,7 +127,7 @@ include 'connection.php';
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="../pages/tables.html">
+          <a class="nav-link  " href="../pages/tables.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>office</title>
@@ -96,7 +147,7 @@ include 'connection.php';
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="../pages/billing.html">
+          <a class="nav-link  " href="../pages/billing.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>credit-card</title>
@@ -120,7 +171,7 @@ include 'connection.php';
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="../pages/profile.html">
+          <a class="nav-link  " href="../pages/profile.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>customer-support</title>
@@ -141,7 +192,7 @@ include 'connection.php';
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="../pages/sign-in.html">
+          <a class="nav-link  " href="../pages/sign-in.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>document</title>
@@ -161,7 +212,7 @@ include 'connection.php';
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  " href="../pages/sign-up.html">
+          <a class="nav-link  " href="../pages/sign-up.php">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>spaceship</title>
@@ -184,7 +235,7 @@ include 'connection.php';
         </li>
       </ul>
     </div>
-    
+
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
@@ -205,7 +256,7 @@ include 'connection.php';
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
-            
+
             <li class="nav-item d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
@@ -304,233 +355,354 @@ include 'connection.php';
       </div>
     </nav>
     <!-- End Navbar -->
-   
-    <div class="container-fluid py-4">
-  <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Monthly Sales</p>
-                <?php
-                include 'connection.php';
 
-                // Get the total sales for the current month
-                $currentMonth = date('Y-m');
-                $query = "SELECT SUM(GRAND_TOTAL) AS total_sales
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Monthly Sales</p>
+                    <?php
+                    include 'connection.php';
+
+                    // Get the total sales for the current month
+                    $currentMonth = date('Y-m');
+                    $query = "SELECT SUM(GRAND_TOTAL) AS total_sales
                           FROM `order`
                           WHERE DATE_FORMAT(order_date, '%Y-%m') = '$currentMonth'";
-                $result = mysqli_query($conn, $query);
-                $row = mysqli_fetch_assoc($result);
-                $currentMonthSales = $row['total_sales'];
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $currentMonthSales = $row['total_sales'];
 
-                // Get the total sales for the previous month
-                $previousMonth = date('Y-m', strtotime('-1 month'));
-                $query = "SELECT SUM(GRAND_TOTAL) AS total_sales
+                    // Get the total sales for the previous month
+                    $previousMonth = date('Y-m', strtotime('-1 month'));
+                    $query = "SELECT SUM(GRAND_TOTAL) AS total_sales
                           FROM `order`
                           WHERE DATE_FORMAT(order_date, '%Y-%m') = '$previousMonth'";
-                $result = mysqli_query($conn, $query);
-                $row = mysqli_fetch_assoc($result);
-                $previousMonthSales = $row['total_sales'];
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $previousMonthSales = $row['total_sales'];
 
-                $conn->close();
+                    $conn->close();
 
-                // Calculate the percentage change
-                if ($previousMonthSales != 0) {
-                  $percentageChange = (($currentMonthSales - $previousMonthSales) / $previousMonthSales) * 100;
-                } else {
-                  $percentageChange = 100;
-                }
-                ?>
-                <h5 class="font-weight-bolder mb-0">
-                  Rp <?php echo number_format($currentMonthSales, 2); ?>
-                  <?php
-                  if ($percentageChange > 0) {
+                    // Calculate the percentage change
+                    if ($previousMonthSales != 0) {
+                      $percentageChange = (($currentMonthSales - $previousMonthSales) / $previousMonthSales) * 100;
+                    } else {
+                      $percentageChange = 100;
+                    }
+                    ?>
+                    <h5 class="font-weight-bolder mb-0">
+                      Rp <?php echo number_format($currentMonthSales, 2); ?>
+                      <?php
+                      if ($percentageChange > 0) {
+                        echo '<span class="text-success text-sm font-weight-bolder">+' . number_format($percentageChange, 2) . '%</span>';
+                      } elseif ($percentageChange < 0) {
+                        echo '<span class="text-danger text-sm font-weight-bolder">' . number_format($percentageChange, 2) . '%</span>';
+                      } else {
+                        echo '<span class="text-info text-sm font-weight-bolder">0%</span>';
+                      }
+                      ?>
+                    </h5>
+                  </div>
+                </div>
+
+
+
+
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Customer</p>
+                    <?php
+                    include 'connection.php';
+
+                    // Get the total number of customers
+                    $query = "SELECT COUNT(customer_id) AS total_customers FROM `customer`";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $totalCustomers = $row['total_customers'];
+
+                    $conn->close();
+                    ?>
+                    <h5 class="font-weight-bolder mb-0">
+                      <?php echo number_format($totalCustomers); ?>
+                      <!-- MASIH GATAU PERSEN APA -->
+                      <br>
+                      <br>
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Monthly Order</p>
+                    <?php
+                    include 'connection.php';
+
+                    // Retrieve the total number of orders for the current month
+                    $query = "SELECT COUNT(*) AS total_orders FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE)";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $totalOrders = $row['total_orders'];
+
+                    echo '<h5 class="font-weight-bolder mb-0">' . $totalOrders . '</h5>';
+
+                    // Calculate the percentage of orders from the previous month
+                    $previousMonth = date('Y-m', strtotime('-1 month'));
+                    $query = "SELECT COUNT(*) AS total_orders_last_month FROM `order` WHERE DATE_FORMAT(order_date, '%Y-%m') = '$previousMonth'";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $totalOrdersLastMonth = $row['total_orders_last_month'];
+
+                    if ($totalOrdersLastMonth != 0) {
+                      $percentageChange = (($totalOrders - $totalOrdersLastMonth) / $totalOrdersLastMonth) * 100;
+                    } else {
+                      $percentageChange = 100;
+                    }
+
                     echo '<span class="text-success text-sm font-weight-bolder">+' . number_format($percentageChange, 2) . '%</span>';
-                  } elseif ($percentageChange < 0) {
-                    echo '<span class="text-danger text-sm font-weight-bolder">' . number_format($percentageChange, 2) . '%</span>';
-                  } else {
-                    echo '<span class="text-info text-sm font-weight-bolder">0%</span>';
-                  }
-                  ?>
-                </h5>
-              </div>
-            </div>
-           
-     
-   
 
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+
+                    $conn->close();
+                    ?>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
- 
 
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-  <div class="card">
-    <div class="card-body p-3">
-      <div class="row">
-        <div class="col-8">
-          <div class="numbers">
-            <p class="text-sm mb-0 text-capitalize font-weight-bold">Customer</p>
-            <?php
-            include 'connection.php';
 
-            // Get the total number of customers
-            $query = "SELECT COUNT(customer_id) AS total_customers FROM `customer`";
-            $result = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $totalCustomers = $row['total_customers'];
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Voucher Spent</p>
+                    <?php
+                    include 'connection.php';
 
-            $conn->close();
-            ?>
-            <h5 class="font-weight-bolder mb-0">
-              <?php echo number_format($totalCustomers); ?>
-              <!-- MASIH GATAU PERSEN APA -->
-              <br>
-              <br>
-            </h5>
+                    // Get the total discount for the current month
+                    $query = "SELECT SUM(TOTAL_POTONGAN) AS total_discount FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE)";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $currentMonthDiscount = $row['total_discount'];
+
+                    // Get the total discount for the previous month
+                    $previousMonth = date('Y-m', strtotime('-1 month'));
+                    $query = "SELECT SUM(TOTAL_POTONGAN) AS total_discount FROM `order` WHERE DATE_FORMAT(order_date, '%Y-%m') = '$previousMonth'";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+                    $previousMonthDiscount = $row['total_discount'];
+
+                    $conn->close();
+
+                    // Calculate the percentage change
+                    if ($previousMonthDiscount != 0) {
+                      $percentageChange = (($currentMonthDiscount - $previousMonthDiscount) / $previousMonthDiscount) * 100;
+                    } else {
+                      $percentageChange = 100;
+                    }
+                    ?>
+                    <h5 class="font-weight-bolder mb-0">
+                      Rp <?php echo number_format($currentMonthDiscount, 2); ?>
+                      <span class="text-success text-sm font-weight-bolder">
+                        <?php
+                        if ($percentageChange > 0) {
+                          echo '+' . number_format($percentageChange, 2) . '%';
+                        } elseif ($percentageChange < 0) {
+                          echo number_format($percentageChange, 2) . '%';
+                        } else {
+                          echo '0%';
+                        }
+                        ?>
+                      </span>
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-4 text-end">
-          <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card container-tables mb-4 mt-4">
+              <div class="card-header px-1 py-2">
+                <h5>ORDER HISTORY</h5>
+              </div>
+              <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0 tabel">
+                  <table cellpadding="0" cellspacing="0" border="0" class="display" id="cust" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ORDER ID</th>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">CUSTOMER NAME</th>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">DATE</th>
+
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">GRAND TOTAL</th>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">PAYMENT</th>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">STATUS</th>
+                        <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-10">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+
+                      <?php
+                      include 'connection.php';
+
+                      $sql = "SELECT O.ORDER_ID, C.CUSTOMER_NAME, O.ORDER_DATE, O.GRAND_TOTAL, P.PAYMENT_METHOD, D.DELIVERY_STATUS 
+                FROM `ORDER` O, CUSTOMER C, PAYMENT P, DELIVERY D 
+                WHERE O.CUSTOMER_ID = C.CUSTOMER_ID 
+                AND P.PAYMENT_ID = O.PAYMENT_ID 
+                AND D.DELIVERY_ID = O.DELIVERY_ID 
+                AND O.STATUS = 0;";
+                      $result = $conn->query($sql);
+
+                      if ($result->num_rows > 0) {
+                        $response = array();
+                        while ($row = $result->fetch_assoc()) {
+                          $dt['ORDER_ID'] = $row['ORDER_ID'];
+                          $dt['CUSTOMER_NAME'] = $row["CUSTOMER_NAME"];
+                          $dt['ORDER_DATE'] = $row["ORDER_DATE"];
+                          $dt['GRAND_TOTAL'] = $row["GRAND_TOTAL"];
+                          $dt['PAYMENT_METHOD'] = $row["PAYMENT_METHOD"];
+                          $dt['DELIVERY_STATUS'] = $row["DELIVERY_STATUS"];
+                          array_push($response, $dt);
+                        }
+
+                        $hasil_json = json_encode($response);
+                        $data = json_decode($hasil_json, true);
+                        for ($i = 0; $i < count($data); $i++) {
+                      ?>
+
+                          <tr class="trorder">
+                            <td>
+                              <!-- <div>
+                                  <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                </div> -->
+                              <div class="d-flex flex-column justify-content-center">
+                                <h6 class="mb-0 text-xs text-center order_id"><?php echo $data[$i]["ORDER_ID"]; ?></h6>
+                                <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                              </div>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["CUSTOMER_NAME"]; ?></p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["ORDER_DATE"]; ?></p>
+                            </td>
+                            <td class="align-middle text-center">
+                              <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["GRAND_TOTAL"]; ?></span>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <p class="text-xs font-weight-bold mb-0"><?php echo $data[$i]["PAYMENT_METHOD"]; ?></p>
+                            </td>
+                            <td class="align-middle text-center">
+                              <span class="text-secondary text-xs font-weight-bold"><?php echo $data[$i]["DELIVERY_STATUS"]; ?></span>
+                            </td>
+                            <td class="align-left text-center">
+                        
+
+                              <a href="#" class="text-secondary font-weight-bold text-xs editProduct" data-toggle="tooltip" data-original-title="Centang" onclick="showConfirmation(this)" data-order-id="<?php echo $data[$i]["ORDER_ID"]; ?>">
+  <span class="badge badge-sm bg-gradient-success">
+    <i class="fas fa-check"></i>
+  </span>
+</a>
+<a href="#" class="text-secondary font-weight-bold text-xs editProduct" data-toggle="tooltip" data-original-title="Silang" onclick="showConfirmationDelete(this)" data-order-id="<?php echo $data[$i]["ORDER_ID"]; ?>">
+  <span class="badge badge-sm bg-gradient-danger">
+    <i class="fas fa-times"></i>
+  </span>
+</a>
+                            </td>
+
+                          </tr>
+
+                        <?php } ?>
+
+                      <?php } else { ?>
+                        <td>No orders</td>
+                      <?php } ?>
+                    </tbody>
+
+                  </table>
+
+
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal1">
+                    </div>
+                  </div>
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal2">
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-  <div class="card">
-    <div class="card-body p-3">
-      <div class="row">
-        <div class="col-8">
-          <div class="numbers">
-            <p class="text-sm mb-0 text-capitalize font-weight-bold">Monthly Order</p>
-            <?php
-            include 'connection.php';
+       
 
-            // Retrieve the total number of orders for the current month
-            $query = "SELECT COUNT(*) AS total_orders FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE)";
-            $result = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $totalOrders = $row['total_orders'];
+        <div class="col-lg-6 mt-4">
+          <div class="card z-index-2" style="height: 100%;">
+            <div class="card-header pb-0 ">
+              <h6>Top Selling Categories</h6>
+            </div>
+            <div class="card-body p-3">
+              <?php
+              include 'connection.php';
 
-            echo '<h5 class="font-weight-bolder mb-0">' . $totalOrders . '</h5>';
-
-            // Calculate the percentage of orders from the previous month
-            $previousMonth = date('Y-m', strtotime('-1 month'));
-            $query = "SELECT COUNT(*) AS total_orders_last_month FROM `order` WHERE DATE_FORMAT(order_date, '%Y-%m') = '$previousMonth'";
-            $result = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $totalOrdersLastMonth = $row['total_orders_last_month'];
-
-            if ($totalOrdersLastMonth != 0) {
-              $percentageChange = (($totalOrders - $totalOrdersLastMonth) / $totalOrdersLastMonth) * 100;
-            } else {
-              $percentageChange = 100;
-            }
-
-            echo '<span class="text-success text-sm font-weight-bolder">+' . number_format($percentageChange, 2) . '%</span>';
-            
-
-            $conn->close();
-            ?>
-          </div>
-        </div>
-        <div class="col-4 text-end">
-          <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-            <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-xl-3 col-sm-6">
-  <div class="card">
-    <div class="card-body p-3">
-      <div class="row">
-        <div class="col-8">
-          <div class="numbers">
-            <p class="text-sm mb-0 text-capitalize font-weight-bold">Voucher Spent</p>
-            <?php
-            include 'connection.php';
-
-            // Get the total discount for the current month
-            $query = "SELECT SUM(TOTAL_POTONGAN) AS total_discount FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE)";
-            $result = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $currentMonthDiscount = $row['total_discount'];
-
-            // Get the total discount for the previous month
-            $previousMonth = date('Y-m', strtotime('-1 month'));
-            $query = "SELECT SUM(TOTAL_POTONGAN) AS total_discount FROM `order` WHERE DATE_FORMAT(order_date, '%Y-%m') = '$previousMonth'";
-            $result = mysqli_query($conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $previousMonthDiscount = $row['total_discount'];
-
-            $conn->close();
-
-            // Calculate the percentage change
-            if ($previousMonthDiscount != 0) {
-              $percentageChange = (($currentMonthDiscount - $previousMonthDiscount) / $previousMonthDiscount) * 100;
-            } else {
-              $percentageChange = 100;
-            }
-            ?>
-            <h5 class="font-weight-bolder mb-0">
-              Rp <?php echo number_format($currentMonthDiscount, 2); ?>
-              <span class="text-success text-sm font-weight-bolder">
-                <?php
-                if ($percentageChange > 0) {
-                  echo '+' . number_format($percentageChange, 2) . '%';
-                } elseif ($percentageChange < 0) {
-                  echo number_format($percentageChange, 2) . '%';
-                } else {
-                  echo '0%';
-                }
-                ?>
-              </span>
-            </h5>
-          </div>
-        </div>
-        <div class="col-4 text-end">
-          <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-            <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-            
-          </div>
-     
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br><br>
-
-
-<div class="col-lg-6 mt-4">
-  <div class="card z-index-2" style="height: 100%;">
-    <div class="card-header pb-0 ">
-      <h6>Top Selling Categories</h6>
-    </div>
-    <div class="card-body p-3">
-    <?php
-include 'connection.php';
-
-$query = "SELECT c.category_name, COUNT(*) AS total_orders
+              $query = "SELECT c.category_name, COUNT(*) AS total_orders
           FROM product_order po
           INNER JOIN product p ON po.product_id = p.product_id
           INNER JOIN category c ON p.category_id = c.category_id
@@ -538,39 +710,39 @@ $query = "SELECT c.category_name, COUNT(*) AS total_orders
           ORDER BY total_orders DESC
           LIMIT 5";
 
-$result = mysqli_query($conn, $query);
+              $result = mysqli_query($conn, $query);
 
-// Create arrays to store category names and total orders
-$categories = array();
-$totalOrders = array();
+              // Create arrays to store category names and total orders
+              $categories = array();
+              $totalOrders = array();
 
-// Loop through the query result and add to the arrays
-while ($row = mysqli_fetch_assoc($result)) {
-    $categories[] = $row['category_name'];
-    $totalOrders[] = $row['total_orders'];
-}
+              // Loop through the query result and add to the arrays
+              while ($row = mysqli_fetch_assoc($result)) {
+                $categories[] = $row['category_name'];
+                $totalOrders[] = $row['total_orders'];
+              }
 
-// Encode the data as JSON
-$categories_json = json_encode($categories);
-$totalOrders_json = json_encode($totalOrders);
+              // Encode the data as JSON
+              $categories_json = json_encode($categories);
+              $totalOrders_json = json_encode($totalOrders);
 
-$conn->close();
-?>
-
-      
-
-      <div class="chart">
-        <canvas id="chart-bar" class="chart-canvas" height="300"></canvas>
-      </div>
-    </div>
-  </div>
-</div>
+              $conn->close();
+              ?>
 
 
 
-      
+              <div class="chart">
+                <canvas id="chart-bar" class="chart-canvas" height="300"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
         <div class="col-lg-6 mt-4">
-          <div class="card z-index-2" >
+          <div class="card z-index-2">
             <div class="card-header pb-0">
               <h6>Sales overview</h6>
               <p class="text-sm">
@@ -582,214 +754,214 @@ $conn->close();
               <div class="chart">
                 <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
               </div>
-            <?php
-                include 'connection.php';
+              <?php
+              include 'connection.php';
 
-                $query = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, SUM(GRAND_TOTAL) AS total_sales
+              $query = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, SUM(GRAND_TOTAL) AS total_sales
                           FROM `order`
                           GROUP BY DATE_FORMAT(order_date, '%Y-%m')
                           ORDER BY DATE_FORMAT(order_date, '%Y-%m')";
 
-                $result = mysqli_query($conn, $query);
-
-                // Buat array untuk menyimpan data bulan dan total penjualan
-                $months = array();
-                $sales = array();
-
-                // Loop melalui hasil query dan tambahkan ke array
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $months[] = $row['order_month'];
-                    $sales[] = $row['total_sales'];
-                }
-
-                // Konversi array ke format JSON untuk digunakan dalam JavaScript
-                $months_json = json_encode($months);
-                $sales_json = json_encode($sales);
-
-                $conn->close();
-                ?>
-
-            </div>
-          </div>
-        </div>
-      </div>
-     
-      <div class="row my-4">
-  <div class="col-lg-7 col-md-6 mb-md-0 mb-4">
-    <div class="card">
-      <div class="card-header pb-0">
-        <div class="row">
-          <div class="col-lg-6 col-7">
-            <h6>Stock Overview</h6>
-          </div>
-          <div class="col-lg-6 col-5 my-auto text-end">
-            <div class="dropdown float-lg-end pe-4">
-              <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Filter
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                <?php
-                include 'connection.php';
-
-                // Get category data
-                $query = "SELECT category_id, category_name FROM category";
-                $result = mysqli_query($conn, $query);
-
-                $categoryFilter = null;
-                if (isset($_GET['category_id'])) {
-                  $categoryFilter = $_GET['category_id'];
-                }
-
-                $firstCategoryID = null;
-                $firstCategoryName = null;
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                  if (!$firstCategoryID) {
-                    $firstCategoryID = $row['category_id'];
-                    $firstCategoryName = $row['category_name'];
-                  }
-
-                  echo '<li><a class="dropdown-item border-radius-md" href="?category_id=' . $row['category_id'] . '">' . $row['category_name'] . '</a></li>';
-                }
-
-                $conn->close();
-                ?>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body px-0 pb-2">
-        <div class="table-responsive">
-          <table class="table align-items-center mb-0">
-            <thead>
-              <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Name</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Progress</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              include 'connection.php';
-
-              // Get product data
-              $query = "SELECT DISTINCT p.product_name, p.product_stock FROM product p INNER JOIN category c ON p.category_id = c.category_id";
-              if ($categoryFilter) {
-                $query .= " WHERE p.category_id = '" . $categoryFilter . "'";
-              } else {
-                // Use the first category as default filter if no category is selected
-                $query .= " WHERE p.category_id = '" . $firstCategoryID . "'";
-              }
               $result = mysqli_query($conn, $query);
 
-              if (mysqli_num_rows($result) == 0) {
-                echo '<tr><td colspan="3">No product found.</td></tr>';
-              } else {
-                while ($row = mysqli_fetch_assoc($result)) {
-                  $productName = $row['product_name'];
-                  $productStock = $row['product_stock'];
-                  $progressPercentage = ($productStock / 100) * 100;
-                  // Rest of your code to display the product data
-                  echo '<tr>';
-                  echo '<td>';
-                  echo '<h6 class="mb-0 text-sm">' . $productName . '</h6>';
-                  echo '</td>';
-                  echo '<td class="text-center">' . $productStock . '</td>';
-                  echo '<td class="text-center">';
-                  echo '<div class="progress-wrapper w-75 mx-auto">';
-                  echo '<div class="progress">';
-                  echo '<div class="progress-bar bg-gradient-info w-' . $progressPercentage . '" role="progressbar" aria-valuenow="' . $progressPercentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</td>';
-                  echo '</tr>';
-                }
+              // Buat array untuk menyimpan data bulan dan total penjualan
+              $months = array();
+              $sales = array();
+
+              // Loop melalui hasil query dan tambahkan ke array
+              while ($row = mysqli_fetch_assoc($result)) {
+                $months[] = $row['order_month'];
+                $sales[] = $row['total_sales'];
               }
+
+              // Konversi array ke format JSON untuk digunakan dalam JavaScript
+              $months_json = json_encode($months);
+              $sales_json = json_encode($sales);
 
               $conn->close();
               ?>
-            </tbody>
-          </table>
+
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="col-lg-5 col-md-6">
-  <div class="card h-100">
-    <div class="card-header pb-0">
-      <h6>Orders overview</h6>
-      <p class="text-sm">
-        <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-        <span class="font-weight-bold">
-          <?php
-          include 'connection.php';
 
-          // Calculate the percentage of orders from last month
-          $query = "SELECT COUNT(*) AS total_orders FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)";
-          $result = mysqli_query($conn, $query);
-          $row = mysqli_fetch_assoc($result);
-          $totalOrders = $row['total_orders'];
+      <div class="row my-4">
+        <div class="col-lg-7 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-6 col-7">
+                  <h6>Stock Overview</h6>
+                </div>
+                <div class="col-lg-6 col-5 my-auto text-end">
+                  <div class="dropdown float-lg-end pe-4">
+                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      Filter
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                      <?php
+                      include 'connection.php';
 
-          $query = "SELECT COUNT(*) AS total_orders_last_month FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH)";
-          $result = mysqli_query($conn, $query);
-          $row = mysqli_fetch_assoc($result);
-          $totalOrdersLastMonth = $row['total_orders_last_month'];
+                      // Get category data
+                      $query = "SELECT category_id, category_name FROM category";
+                      $result = mysqli_query($conn, $query);
 
-          if ($totalOrdersLastMonth == 0) {
-            $percentage = 100;
-          } else {
-            $percentage = (($totalOrders - $totalOrdersLastMonth) / $totalOrdersLastMonth) * 100;
-          }
+                      $categoryFilter = null;
+                      if (isset($_GET['category_id'])) {
+                        $categoryFilter = $_GET['category_id'];
+                      }
 
-          echo round($percentage) . '%';
-          ?>
-        </span> this month
-      </p>
-    </div>
-    <div class="card-body p-3">
-      <div class="timeline timeline-one-side">
-        <?php
-        include 'connection.php';
+                      $firstCategoryID = null;
+                      $firstCategoryName = null;
 
-        // Get the 10 most recent orders
-        $query = "SELECT o.order_id, c.customer_name, o.order_date
+                      while ($row = mysqli_fetch_assoc($result)) {
+                        if (!$firstCategoryID) {
+                          $firstCategoryID = $row['category_id'];
+                          $firstCategoryName = $row['category_name'];
+                        }
+
+                        echo '<li><a class="dropdown-item border-radius-md" href="?category_id=' . $row['category_id'] . '">' . $row['category_name'] . '</a></li>';
+                      }
+
+                      $conn->close();
+                      ?>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Progress</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    include 'connection.php';
+
+                    // Get product data
+                    $query = "SELECT DISTINCT p.product_name, p.product_stock FROM product p INNER JOIN category c ON p.category_id = c.category_id";
+                    if ($categoryFilter) {
+                      $query .= " WHERE p.category_id = '" . $categoryFilter . "'";
+                    } else {
+                      // Use the first category as default filter if no category is selected
+                      $query .= " WHERE p.category_id = '" . $firstCategoryID . "'";
+                    }
+                    $result = mysqli_query($conn, $query);
+
+                    if (mysqli_num_rows($result) == 0) {
+                      echo '<tr><td colspan="3">No product found.</td></tr>';
+                    } else {
+                      while ($row = mysqli_fetch_assoc($result)) {
+                        $productName = $row['product_name'];
+                        $productStock = $row['product_stock'];
+                        $progressPercentage = ($productStock / 100) * 100;
+                        // Rest of your code to display the product data
+                        echo '<tr>';
+                        echo '<td>';
+                        echo '<h6 class="mb-0 text-sm">' . $productName . '</h6>';
+                        echo '</td>';
+                        echo '<td class="text-center">' . $productStock . '</td>';
+                        echo '<td class="text-center">';
+                        echo '<div class="progress-wrapper w-75 mx-auto">';
+                        echo '<div class="progress">';
+                        echo '<div class="progress-bar bg-gradient-info w-' . $progressPercentage . '" role="progressbar" aria-valuenow="' . $progressPercentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</td>';
+                        echo '</tr>';
+                      }
+                    }
+
+                    $conn->close();
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card h-100">
+            <div class="card-header pb-0">
+              <h6>Orders overview</h6>
+              <p class="text-sm">
+                <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+                <span class="font-weight-bold">
+                  <?php
+                  include 'connection.php';
+
+                  // Calculate the percentage of orders from last month
+                  $query = "SELECT COUNT(*) AS total_orders FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)";
+                  $result = mysqli_query($conn, $query);
+                  $row = mysqli_fetch_assoc($result);
+                  $totalOrders = $row['total_orders'];
+
+                  $query = "SELECT COUNT(*) AS total_orders_last_month FROM `order` WHERE MONTH(order_date) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH)";
+                  $result = mysqli_query($conn, $query);
+                  $row = mysqli_fetch_assoc($result);
+                  $totalOrdersLastMonth = $row['total_orders_last_month'];
+
+                  if ($totalOrdersLastMonth == 0) {
+                    $percentage = 100;
+                  } else {
+                    $percentage = (($totalOrders - $totalOrdersLastMonth) / $totalOrdersLastMonth) * 100;
+                  }
+
+                  echo round($percentage) . '%';
+                  ?>
+                </span> this month
+              </p>
+            </div>
+            <div class="card-body p-3">
+              <div class="timeline timeline-one-side">
+                <?php
+                include 'connection.php';
+
+                // Get the 10 most recent orders
+                $query = "SELECT o.order_id, c.customer_name, o.order_date
           FROM `order` o
           INNER JOIN customer c ON o.customer_id = c.customer_id
           ORDER BY o.order_date DESC
           LIMIT 10";
 
-        $result = mysqli_query($conn, $query);
+                $result = mysqli_query($conn, $query);
 
-        if (mysqli_num_rows($result) == 0) {
-          echo '<p>No orders found.</p>';
-        } else {
-          while ($row = mysqli_fetch_assoc($result)) {
-            $orderId = $row['order_id'];
-            $customerName = $row['customer_name'];
-            $orderDate = $row['order_date'];
+                if (mysqli_num_rows($result) == 0) {
+                  echo '<p>No orders found.</p>';
+                } else {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    $orderId = $row['order_id'];
+                    $customerName = $row['customer_name'];
+                    $orderDate = $row['order_date'];
 
-            echo '<div class="timeline-block mb-3">';
-            echo '<span class="timeline-step">';
-            echo '<i class="ni ni-bell-55 text-success text-gradient"></i>';
-            echo '</span>';
-            echo '<div class="timeline-content">';
-            echo '<h6 class="text-dark text-sm font-weight-bold mb-0">' . $orderId . ', ' . $customerName . '</h6>';
-            echo '<p class="text-secondary font-weight-bold text-xs mt-1 mb-0">' . date('d M H:i A', strtotime($orderDate)) . '</p>';
-            echo '</div>';
-            echo '</div>';
-          }
-        }
+                    echo '<div class="timeline-block mb-3">';
+                    echo '<span class="timeline-step">';
+                    echo '<i class="ni ni-bell-55 text-success text-gradient"></i>';
+                    echo '</span>';
+                    echo '<div class="timeline-content">';
+                    echo '<h6 class="text-dark text-sm font-weight-bold mb-0">' . $orderId . ', ' . $customerName . '</h6>';
+                    echo '<p class="text-secondary font-weight-bold text-xs mt-1 mb-0">' . date('d M H:i A', strtotime($orderDate)) . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                  }
+                }
 
-        $conn->close();
-        ?>
+                $conn->close();
+                ?>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-</div>
 
-       
+
 
       <footer class="footer pt-3  ">
         <div class="container-fluid">
@@ -898,78 +1070,142 @@ $conn->close();
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
   <script>
     // Ambil elemen canvas grafik
-var ctx = document.getElementById('chart-line').getContext('2d');
+    var ctx = document.getElementById('chart-line').getContext('2d');
 
-// Konversi data JSON yang diteruskan dari PHP ke array JavaScript
-var months = <?php echo $months_json; ?>;
-var sales = <?php echo $sales_json; ?>;
+    // Konversi data JSON yang diteruskan dari PHP ke array JavaScript
+    var months = <?php echo $months_json; ?>;
+    var sales = <?php echo $sales_json; ?>;
 
-// Buat grafik menggunakan Chart.js
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: months, // Tanggal
-    datasets: [{
-      label: 'Total Sales',
-      data: sales, // Total penjualan
-      backgroundColor: 'rgba(238, 162, 162, 0.2)', // Warna pink
-      borderColor: 'rgba(238, 162, 162, 1)', // Warna pink
-      borderWidth: 1
-    }]
-  },
-  options: {
-    responsive: true,
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    },
-    elements: {
-      line: {
-        tension: 0.4 // Kurangi kekakuan garis
-      }
-    }
-  }
-});
-
-//CATEGORY
-// JavaScript code for creating the chart
-var categories = <?php echo $categories_json; ?>;
-  var totalOrders = <?php echo $totalOrders_json; ?>;
-
-  // Create a bar chart using Chart.js
-  var ctx = document.getElementById('chart-bar').getContext('2d');
-  var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: categories,
-      datasets: [{
-        label: 'Total Orders',
-        data: totalOrders,
-        backgroundColor: 'rgba(238, 162, 162, 0.2)', // Warna pink
-      borderColor: 'rgba(238, 162, 162, 1)', // Warna pink
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: {
-          grid: {
-            display: false
+    // Buat grafik menggunakan Chart.js
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: months, // Tanggal
+        datasets: [{
+          label: 'Total Sales',
+          data: sales, // Total penjualan
+          backgroundColor: 'rgba(238, 162, 162, 0.2)', // Warna pink
+          borderColor: 'rgba(238, 162, 162, 1)', // Warna pink
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
           }
         },
-        y: {
-          beginAtZero: true
+        elements: {
+          line: {
+            tension: 0.4 // Kurangi kekakuan garis
+          }
         }
       }
+    });
+
+    //CATEGORY
+    // JavaScript code for creating the chart
+    var categories = <?php echo $categories_json; ?>;
+    var totalOrders = <?php echo $totalOrders_json; ?>;
+
+    // Create a bar chart using Chart.js
+    var ctx = document.getElementById('chart-bar').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Total Orders',
+          data: totalOrders,
+          backgroundColor: 'rgba(238, 162, 162, 0.2)', // Warna pink
+          borderColor: 'rgba(238, 162, 162, 1)', // Warna pink
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // ORDER HISTORY
+
+
+
+function showConfirmation(link) {
+
+  if (confirm("Proceed with this order?")) {
+    var orderId = link.getAttribute('data-order-id');
+    updateOrderStatus(orderId);
+  }
+  location.reload();
+}
+
+
+    function updateOrderStatus(orderId) {
+      // Make an AJAX request to the server-side script
+      $.ajax({
+        url: 'dashboard.php',
+        method: 'POST',
+        data: {
+          orderId: orderId
+        },
+        success: function(response) {
+          console.log(response);
+          // Optionally, you can refresh the order history table or perform any other action
+        },
+        error: function(xhr, status, error) {
+          console.error('Error updating order status:', error);
+        }
+      });
     }
-  });
-  //customer
-  // Create a bar chart for customers using Chart.js
+
+    function showConfirmationDelete(link) {
+
+if (confirm("Decline this order?")) {
+  var orderId = link.getAttribute('data-order-id');
+  updateOrderStatus(orderId);
+}
+location.reload();
+}
+
+
+  function updateOrderStatus(orderId) {
+    // Make an AJAX request to the server-side script
+    $.ajax({
+      url: 'dashboard.php',
+      method: 'POST',
+      data: {
+        orderId: orderId
+      },
+      success: function(response) {
+        console.log(response);
+        // Optionally, you can refresh the order history table or perform any other action
+      },
+      error: function(xhr, status, error) {
+        console.error('Error updating order status:', error);
+      }
+    });
+  }
+    // selesai disini
+
+    //customer
+    // Create a bar chart for customers using Chart.js
 
     // halo
     // var ctx = document.getElementById("chart-bars").getContext("2d");

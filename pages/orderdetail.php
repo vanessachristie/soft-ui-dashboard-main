@@ -39,7 +39,7 @@ $data = json_decode($hasil_json,true);
 <div class="modal-content popupdetails">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" style="background-color: black;" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
         <form method="POST" class="formEdit">
@@ -55,7 +55,7 @@ $data = json_decode($hasil_json,true);
             <?php $columnNames = array_keys($data[0]); // Mengambil nama kolom dari $data ?>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary popupresi" name="form<?php echo $columnNames[0]; ?>">Print Receipt</button>
+                <button type="button" class="btn btn-primary popupresi" name="form<?php echo $columnNames[0]; ?>">View Receipt</button>
             </div>
         </form>
 
@@ -65,7 +65,8 @@ $data = json_decode($hasil_json,true);
 <div class="modal-content resi">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">RECEIPT</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: black;"></button>
+
     </div>
     <div class="modal-body">
         <?php
